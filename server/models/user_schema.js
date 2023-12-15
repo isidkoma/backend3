@@ -25,7 +25,14 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-
+    validate: {
+      validator: function(password) {
+        // Example: Minimum eight characters, at least one letter, one number and one special character
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+        return passwordRegex.test(password);
+      },
+      message: 'Password does not meet complexity requirements',
+    },
 
   },
   income: {
