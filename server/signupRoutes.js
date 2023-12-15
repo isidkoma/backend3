@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
     if (password !== confirmPassword) {
       return res.status(400).json({ error: 'Passwords do not match' });
     }
-   if (error.name === 'ValidationError' && error.message.includes('Password does not meet complexity requirements')) {
+   if (error.name === 'ValidationError') {
       // Handle the password complexity validation error
       return res.status(400).json({ error: 'Password does not meet complexity requirements ' });
     }
