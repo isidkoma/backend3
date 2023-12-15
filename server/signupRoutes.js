@@ -14,7 +14,10 @@ router.post('/', async (req, res) => {
     if (password !== confirmPassword) {
       return res.status(400).json({ error: 'Passwords do not match' });
     }
-
+     const passwordRegex = /^(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,})/;
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({ error: 'Password should contain at least one uppercase letter, one special character, and be at least 8 characters long' });
+    }
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(409).json({ error: 'User already exists' });
