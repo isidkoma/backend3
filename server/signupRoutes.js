@@ -14,11 +14,15 @@ router.post('/', async (req, res) => {
     if (password !== confirmPassword) {
       return res.status(400).json({ error: 'Passwords do not match' });
     }
-
+   if (error.name === 'ValidationError' && error.message.includes('Password does not meet complexity requirements')) {
+      // Handle the password complexity validation error
+      return res.status(400).json({ error: 'Password does not meet complexity requirements ' });
+    }
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(409).json({ error: 'User already exists' });
     }
+    
 
     const newUser = new User({ username, email, password });
     await newUser.save();
